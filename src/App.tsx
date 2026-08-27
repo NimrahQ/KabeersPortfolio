@@ -311,7 +311,11 @@ function SkillsSection() {
               </span>
   <div className="skills__body">
                 <span className="skills__label">{tool.title}</span>
-                <span className="skills__value">{tool.items}</span>
+                <div className="skills__tags">
+                  {tool.items.split(', ').map((tag) => (
+                    <span className="skills__tag" key={tag}>{tag}</span>
+                  ))}
+                </div>
               </div>
             </li>
           ))}

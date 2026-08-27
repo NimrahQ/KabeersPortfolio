@@ -541,7 +541,7 @@ function HeroModel({ scrollProgress }: HeroModelProps) {
       for (const material of materials) {
         if (!(material instanceof THREE.MeshStandardMaterial)) continue
         const mat = material as HeroMat
-         mat.envMapIntensity = 1.1
+         mat.envMapIntensity = 1.8
         mat.metalness = Math.max(mat.metalness, 0.72)
         mat.roughness = Math.min(Math.max(mat.roughness, 0.32), 0.48)
         mat.transparent = false
@@ -677,30 +677,32 @@ useGLTF.preload(MODEL_URL, true)
 function SceneLights() {
   return (
     <>
-      <ambientLight intensity={0.9} color="#f0d0d4" />
-      <hemisphereLight args={['#ffe8e0', '#3a1018', 0.7]} />
+      <ambientLight intensity={1.6} color="#f5e0e4" />
+      <hemisphereLight args={['#ffe8e0', '#5a2028', 1.1]} />
       <directionalLight
         castShadow
         position={[3, 5, 4]}
-        intensity={1.65}
-        color="#fff2ea"
+        intensity={2.8}
+        color="#fff5ee"
         shadow-mapSize={[1024, 1024]}
         shadow-bias={-0.0002}
       />
-      <directionalLight position={[-2.5, 2, 2]} intensity={0.55} color="#ff7a8a" />
-      <directionalLight position={[4, 2, 2]} intensity={1} color="#ffe0d0" />
+      <directionalLight position={[-2.5, 2, 2]} intensity={1.1} color="#ff7a8a" />
+      <directionalLight position={[4, 2, 2]} intensity={1.8} color="#ffe0d0" />
       <spotLight
         position={[1.8, 4, 5]}
         angle={0.7}
         penumbra={1}
-        intensity={8}
+        intensity={14}
         color="#ffe8df"
         distance={20}
       />
-      <pointLight position={[2.2, 0.6, 2.2]} intensity={2.4} color="#ff8a9a" distance={10} />
+      <pointLight position={[2.2, 0.6, 2.2]} intensity={4.0} color="#ff8a9a" distance={10} />
       {/* Extra fill lights to compensate for external HDR reflections */}
-      <directionalLight position={[-3, 3, -2]} intensity={0.35} color="#d0e0ff" />
-      <directionalLight position={[0, -2, 3]} intensity={0.25} color="#ffe0d0" />
+      <directionalLight position={[-3, 3, -2]} intensity={0.8} color="#d0e0ff" />
+      <directionalLight position={[0, -2, 3]} intensity={0.6} color="#ffe0d0" />
+      {/* Extra top fill */}
+      <directionalLight position={[0, 6, 3]} intensity={1.2} color="#ffffff" />
     </>
   )
 }
@@ -721,7 +723,7 @@ export function WorldScene({ scrollProgress }: WorldSceneProps) {
         alpha: true,
         powerPreference: 'high-performance',
         toneMapping: THREE.ACESFilmicToneMapping,
-        toneMappingExposure: 1.12,
+        toneMappingExposure: 1.45,
       }}
       onCreated={({ gl, scene }) => {
         gl.setClearColor(0x000000, 0)
