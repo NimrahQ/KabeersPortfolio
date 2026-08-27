@@ -1,0 +1,11 @@
+Model Information:
+* title:	Army robot
+* source:	https://sketchfab.com/3d-models/army-robot-300fb02b18e94108b0f19edc2c2a3c82
+* author:	3DWorkbench (https://sketchfab.com/3DWorkbench)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Army robot" (https://sketchfab.com/3d-models/army-robot-300fb02b18e94108b0f19edc2c2a3c82) by 3DWorkbench (https://sketchfab.com/3DWorkbench) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

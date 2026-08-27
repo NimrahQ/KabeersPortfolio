@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="fedGlow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#4a0a14" stop-opacity="0.6" />
+      <stop offset="60%" stop-color="#1c050a" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#0e0205" stop-opacity="0.98" />
+    </radialGradient>
+    <linearGradient id="fedLineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="rgba(255, 42, 59, 0)" />
+      <stop offset="50%" stop-color="rgba(255, 213, 106, 0.35)" />
+      <stop offset="100%" stop-color="rgba(255, 42, 59, 0)" />
+    </linearGradient>
+    <pattern id="fedGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255, 42, 59, 0.05)" stroke-width="1" />
+    </pattern>
+  </defs>
+
+  <!-- Dark Maroon Radial Base -->
+  <rect width="100%" height="100%" fill="url(#fedGlow)" />
+
+  <!-- Cybernetic Grid Grid Overlay -->
+  <rect width="100%" height="100%" fill="url(#fedGrid)" opacity="0.7" />
+
+  <!-- Federal University Shield Crest Watermark -->
+  <g transform="translate(600, 380)" opacity="0.08">
+    <!-- Outer Crest Circle -->
+    <circle r="220" fill="none" stroke="#ffd56a" stroke-width="2" stroke-dasharray="8 6" />
+    <circle r="190" fill="none" stroke="#ff2a3b" stroke-width="1.5" />
+    <circle r="140" fill="none" stroke="#ffd56a" stroke-width="1" />
+    <!-- Book & Laurel Emblem Silhouette -->
+    <path d="M -60 -20 Q 0 -40 60 -20 L 60 40 Q 0 20 -60 40 Z" fill="none" stroke="#ffd56a" stroke-width="3" />
+    <path d="M 0 -35 L 0 25" stroke="#ffd56a" stroke-width="2" />
+    <!-- Star Emblem -->
+    <polygon points="0,-90 12,-60 45,-60 18,-40 28,-10 0,-30 -28,-10 -18,-40 -45,-60 -12,-60" fill="#ff2a3b" />
+  </g>
+
+  <!-- Large Watermark Text -->
+  <text x="600" y="420" text-anchor="middle" dominant-baseline="middle" font-family="monospace, sans-serif" font-size="110" font-weight="900" letter-spacing="0.12em" fill="rgba(255, 42, 59, 0.035)" stroke="rgba(255, 213, 106, 0.06)" stroke-width="1.5">
+    FEDERAL
+  </text>
+  <text x="600" y="510" text-anchor="middle" dominant-baseline="middle" font-family="monospace, sans-serif" font-size="28" font-weight="700" letter-spacing="0.3em" fill="rgba(255, 213, 106, 0.06)">
+    URDU UNIVERSITY OF ARTS, SCIENCE &amp; TECHNOLOGY
+  </text>
+
+  <!-- Glowing Accent Lines -->
+  <line x1="100" y1="120" x2="1100" y2="120" stroke="url(#fedLineGrad)" stroke-width="1.5" />
+  <line x1="100" y1="680" x2="1100" y2="680" stroke="url(#fedLineGrad)" stroke-width="1.5" />
+</svg>

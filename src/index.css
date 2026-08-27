@@ -1,0 +1,36 @@
+:root {
+  --ink: #1a0508;
+  --blood: #5c0b16;
+  --crimson: #8a1424;
+  --ember: #c41e3a;
+  --mist: #f2e8e4;
+  --font-poster: 'Anton', 'Arial Narrow', sans-serif;
+  --font-story: 'Chicago Athletic', 'Anton', sans-serif;
+  --font-ui: 'Syne', 'Segoe UI', sans-serif;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-ui);
+  background: var(--ink);
+  color: var(--mist);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+}
