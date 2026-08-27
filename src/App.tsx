@@ -24,18 +24,7 @@ const SKILLS_MARQUEE = [
   'AI',
 ] as const
 
-const STORY_LINES = [
-  'A developer is a real life survival heros',
-  'dealing with challenges',
-  'meetings',
-  'dead lines',
-  'managers',
-  'QA bashing',
-] as const
 
-const WORD_MS = 420
-const HOLD_MS = 1600
-const FADE_MS = 500
 
 const SUMMARY =
   'Experienced MEAN and MERN Stack Developer with over 5+ years of experience spearheading complex web applications and ERP systems. Implemented cutting-edge solutions in Multiple product, and UI/UX optimization, while engineering robust integrations with third-party APIs. Developed data-driven strategies to enhance system performance and security, showcasing strong problem-solving skills across diverse projects in fintech, recruitment, and e-commerce sectors.'
