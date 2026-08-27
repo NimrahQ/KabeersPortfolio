@@ -718,23 +718,15 @@
   position: relative;
   min-height: 100svh;
   overflow: hidden;
-  background:
-    radial-gradient(ellipse 60% 50% at 30% 50%, rgba(90, 10, 22, 0.7) 0%, transparent 70%),
-    linear-gradient(160deg, rgba(26, 5, 8, 0.95) 0%, rgba(18, 4, 8, 0.82) 100%);
-  border-top: 1px solid rgba(255, 126, 179, 0.18);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(14, 3, 7, 0.55) 18%,
+    rgba(14, 3, 7, 0.88) 38%,
+    rgba(14, 3, 7, 0.95) 100%
+  );
 }
 
-/* Subtle ember shimmer overlay */
-.skills::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 80% 30% at 50% 0%, rgba(196, 30, 58, 0.12) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 60% at 90% 50%, rgba(255, 126, 179, 0.06) 0%, transparent 60%);
-}
 
 .skills__mark {
   position: absolute;
@@ -791,7 +783,14 @@
   flex-direction: column;
   justify-content: center;
   padding: clamp(2rem, 5vw, 4rem) clamp(2rem, 6vw, 5rem);
-  background: rgba(18, 4, 8, 0.78);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 8%,
+    rgba(14, 3, 7, 0.65) 22%,
+    rgba(14, 3, 7, 0.88) 45%,
+    rgba(14, 3, 7, 0.88) 100%
+  );
   box-shadow: none;
 }
 
