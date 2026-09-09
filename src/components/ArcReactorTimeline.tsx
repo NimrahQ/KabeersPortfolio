@@ -14,6 +14,11 @@ export function ArcReactorTimeline() {
   const [activeCount, setActiveCount] = useState(0)
   const [glowStrength, setGlowStrength] = useState(0.35)
   const [selectedJob, setSelectedJob] = useState<number | null>(null)
+  // How far into this section's own scroll we are, 0 -> 1 across just the
+  // first sliver of the 600vh driver. Drives a quick entrance slide so the
+  // real Career stage pans in from the right as it takes over from the
+  // Tools clone sliding out (see SectionTransition), instead of a hard cut.
+  const [entrance, setEntrance] = useState(0)
   const onScroll = useCallback(() => {
     const driver = driverRef.current
     const section = sectionRef.current
@@ -28,6 +33,8 @@ export function ArcReactorTimeline() {
       Math.floor(progress * 5 + 0.001) + (progress > 0 ? 1 : 0),
     )
     setActiveCount(shouldActive)
+    const entranceRaw = Math.min(Math.max(progress / 0.06, 0), 1)
+    setEntrance(entranceRaw * entranceRaw * (3 - 2 * entranceRaw))
   }, [])
 
  useEffect(() => {
@@ -60,7 +67,12 @@ export function ArcReactorTimeline() {
       <div className="arc-reactor__floor" aria-hidden="true" />
       <div className="arc-reactor__vignette" aria-hidden="true" />
       <div className="arc-reactor__driver" ref={driverRef}>
-        <div className="arc-reactor__stage">
+        <div
+          className="arc-reactor__stage"
+          style={{
+            transform: `translateX(${(1 - entrance) * 100}%)`,
+          }}
+        >
           <div className="arc-reactor__mark" aria-hidden="true">
             CAREER
           </div>

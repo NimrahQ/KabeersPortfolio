@@ -79,6 +79,13 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arc-reactor__stage {
+    transform: none !important;
+  }
 }
 .arc-reactor__header {
   position: absolute;

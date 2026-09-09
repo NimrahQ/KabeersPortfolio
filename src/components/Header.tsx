@@ -6,6 +6,7 @@ const NAV_LINKS = [
   { href: '#skills', label: 'Stack' },
   { href: '#career', label: 'Career' },
   { href: '#education', label: 'Education' },
+  { href: '#contact', label: 'Contact' },
 ] as const
 
 const CONTACT_HREF = 'mailto:syedkabeerahmed12@gmail.com'
