@@ -1,0 +1,278 @@
+/* ═══════════════════════════════════════════════
+   Contact Orb  –  Golden Edition
+   Container: 140 × 140 px (matches SVG viewBox)
+   Core circle: 74 px centred inside
+═══════════════════════════════════════════════ */
+
+/* ── Wrapper ── */
+.contact-orb {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 9999;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Let the expanded icons overflow without clipping */
+  overflow: visible;
+}
+
+/* ── Rotating text ring SVG ── */
+.contact-orb__ring-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  animation: orb-spin 14s linear infinite;
+  transform-origin: center center;
+}
+
+.contact-orb--open .contact-orb__ring-svg {
+  animation-duration: 5s;
+}
+
+@keyframes orb-spin {
+  to { transform: rotate(360deg); }
+}
+
+.contact-orb__ring-text {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  fill: #c8900a;
+  font-family: inherit;
+  text-transform: uppercase;
+}
+
+/* ── Core golden circle ── */
+.contact-orb__core {
+  position: relative;
+  z-index: 2;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: radial-gradient(circle at 38% 32%, #2c1e00, #100b00);
+  border: 1.5px solid #c8900a;
+  box-shadow:
+    0 0 0 2px rgba(200, 144, 10, 0.15),
+    inset 0 1px 0 rgba(245, 200, 66, 0.2),
+    0 6px 28px rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  transition:
+    transform  0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Conic shimmer */
+.contact-orb__core::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 220deg,
+    transparent 0%,
+    rgba(245, 200, 66, 0.16) 18%,
+    transparent 36%
+  );
+  animation: gold-shimmer 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes gold-shimmer { to { transform: rotate(360deg); } }
+
+/* Breathing outer ring */
+.contact-orb__core::after {
+  content: '';
+  position: absolute;
+  inset: -9px;
+  border-radius: 50%;
+  border: 1px solid rgba(200, 144, 10, 0.55);
+  animation: orb-pulse 2.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.contact-orb--open .contact-orb__core {
+  transform: scale(1.1);
+  border-color: #f5c842;
+  box-shadow:
+    0 0 0 3px rgba(245, 200, 66, 0.22),
+    0 0 38px rgba(200, 144, 10, 0.55),
+    inset 0 1px 0 rgba(245, 200, 66, 0.28),
+    0 6px 28px rgba(0, 0, 0, 0.75);
+}
+
+.contact-orb--open .contact-orb__core::after {
+  animation: none;
+  opacity: 0;
+}
+
+@keyframes orb-pulse {
+  0%, 100% { transform: scale(1);    opacity: 0.7; }
+  55%       { transform: scale(1.3); opacity: 0;   }
+}
+
+.contact-orb__cursor-icon {
+  width: 22px;
+  height: 22px;
+  color: #f5c842;
+  filter: drop-shadow(0 0 5px rgba(245, 200, 66, 0.9));
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease, opacity 0.25s ease;
+}
+
+.contact-orb--open .contact-orb__cursor-icon {
+  transform: scale(0.75) rotate(-15deg);
+  opacity: 0.35;
+}
+
+.contact-orb__hint {
+  position: relative;
+  z-index: 1;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #d4a012;
+  line-height: 1;
+  transition: opacity 0.25s ease;
+}
+
+.contact-orb--open .contact-orb__hint {
+  opacity: 0;
+}
+
+/* ══════════════════════════════════════════════
+   Contact icon items
+   All three fan UPWARD from the orb centre so
+   they never overflow the bottom of the viewport.
+
+   Layout (open):
+      [LinkedIn]   [WhatsApp]   [Email]
+              \        |        /
+               \       |       /
+               [  CORE CIRCLE  ]
+══════════════════════════════════════════════ */
+.contact-orb__item {
+  position: absolute;
+  /* anchor on orb centre */
+  top:  50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  text-decoration: none;
+  color: #f5c842;
+  background: radial-gradient(circle at 40% 32%, #231700, #0e0900);
+  border: 1.5px solid #8a6108;
+  box-shadow:
+    inset 0 1px 0 rgba(245, 200, 66, 0.12),
+    0 4px 16px rgba(0, 0, 0, 0.7);
+  /* collapsed on top of core */
+  transform: translate(-50%, -50%) scale(0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform  0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity    0.28s ease,
+    background 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    color      0.22s ease;
+  transition-delay: calc(var(--i) * 0.08s);
+}
+
+.contact-orb:not(.contact-orb--open) .contact-orb__item {
+  transition-delay: calc((2 - var(--i)) * 0.05s);
+}
+
+/* Open positions — spread upward */
+.contact-orb--open .contact-orb__item--linkedin {
+  transform: translate(calc(-50% - 82px), calc(-50% - 90px)) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.contact-orb--open .contact-orb__item--whatsapp {
+  transform: translate(-50%, calc(-50% - 110px)) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.contact-orb--open .contact-orb__item--email {
+  transform: translate(calc(-50% + 82px), calc(-50% - 90px)) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Hover brand colours ── */
+.contact-orb__item--linkedin:hover {
+  color: #fff;
+  background: radial-gradient(circle at 40% 32%, #0d4a8c, #061e40);
+  border-color: #3b9eed;
+  box-shadow: 0 0 24px rgba(59, 130, 246, 0.65);
+}
+
+.contact-orb__item--whatsapp:hover {
+  color: #fff;
+  background: radial-gradient(circle at 40% 32%, #0a5e2a, #042214);
+  border-color: #25d366;
+  box-shadow: 0 0 24px rgba(37, 211, 102, 0.65);
+}
+
+.contact-orb__item--email:hover {
+  color: #fff;
+  background: radial-gradient(circle at 40% 32%, #7a0e1c, #340509);
+  border-color: #e8293d;
+  box-shadow: 0 0 24px rgba(232, 41, 61, 0.65);
+}
+
+/* ── Icon & label inside each item ── */
+.contact-orb__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.contact-orb__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.contact-orb__label {
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* ── Mobile tweaks ── */
+@media (max-width: 600px) {
+  .contact-orb {
+    bottom: 1rem;
+    right: 1rem;
+    width: 120px;
+    height: 120px;
+  }
+}

@@ -21,7 +21,17 @@ const BREAK_COUNT = 5000
 const BREAK_START = 0.30
 const BREAK_END = 0.68
 const DISSOLVE_START = 0.68
-const DISSOLVE_END = 0.84
+/** Longer than before — gives the scattered particles time to fill the
+ *  Tools & Technologies section instead of vanishing right as they appear. */
+const DISSOLVE_END = 0.92
+/** Fraction of the actual visible viewport (0–1) the scattered field is
+ *  allowed to fill on each axis at full dissolve. 1.0 = corner-to-corner;
+ *  lower it slightly if particles feel like they're leaving the section. */
+const SCATTER_VIEWPORT_FILL = 0.95
+/** Depth range (world units, both directions) particles scatter into so the
+ *  cloud isn't a flat plane — kept modest so perspective doesn't make edge
+ *  particles balloon or shrink too much. */
+const SCATTER_DEPTH = 1.6
 /** Visible bust only (waist → head) — feet are off-screen so full-height dissolve looked stuck */
 const VIS_BODY_MIN_Y = -1.35
 const VIS_BODY_MAX_Y = 2.95
@@ -88,7 +98,6 @@ function createSmokeTexture() {
 
 function sampleBreakCloud(count: number) {
   const origins = new Float32Array(count * 3)
-  const velocities = new Float32Array(count * 3)
   const colors = new Float32Array(count * 3)
   const seeds = new Float32Array(count)
   const color = new THREE.Color()
@@ -115,10 +124,6 @@ const x = (Math.random() - 0.5) * 2 * halfW
     origins[i * 3] = x
     origins[i * 3 + 1] = y
     origins[i * 3 + 2] = z
-    const outward = Math.hypot(x, y * 0.25, z) || 1
-    velocities[i * 3] = (x / outward) * (0.5 + Math.random() * 1.4) + (Math.random() - 0.5) * 0.35
-    velocities[i * 3 + 1] = (y / outward) * (0.2 + Math.random() * 0.7) + 0.35 + Math.random() * 1.0
-    velocities[i * 3 + 2] = (z / outward) * (0.4 + Math.random() * 1.1) + (Math.random() - 0.5) * 0.4
     const roll = Math.random()
     if (roll < 0.5) color.set('#ff2f55')
     else if (roll < 0.85) color.set('#ffbf3f')
@@ -128,7 +133,7 @@ const x = (Math.random() - 0.5) * 2 * halfW
     colors[i * 3 + 2] = color.b
     seeds[i] = Math.random()
   }
-  return { origins, velocities, colors, seeds }
+  return { origins, colors, seeds }
 }
 
 
@@ -356,13 +361,30 @@ const lifeFade = Math.sin(p.life * Math.PI)
 }
 type BreakCloudProps = {
   scrollProgress: MutableRefObject<number>
+  /** Current position/scale of the parent hero group, read live each frame
+   *  so viewport-space scatter targets can be converted into that group's
+   *  local space (the group itself is translated/scaled for framing). */
+  groupMotion: MutableRefObject<{ x: number; y: number; scale: number }>
 }
-function BreakCloud({ scrollProgress }: BreakCloudProps) {
+function BreakCloud({ scrollProgress, groupMotion }: BreakCloudProps) {
   const pointsRef = useRef<Points>(null)
   const ashTex = useMemo(() => createAshTexture(), [])
   const cloud = useMemo(() => sampleBreakCloud(BREAK_COUNT), [])
   const positions = useMemo(() => new Float32Array(cloud.origins), [cloud.origins])
-  useFrame(() => {
+  // Fixed per-particle destination in WORLD space, resampled whenever the
+  // viewport size changes (resize) so the field always spans the actual
+  // visible screen. These stay in world space — converting them into the
+  // parent group's local space has to happen live every frame (below) using
+  // the group's CURRENT position/scale, not the transform it happened to
+  // have at the moment this was sampled. (That was the actual bug: the
+  // previous version baked in the group's transform once, at mount, before
+  // the hero had animated into its resting position/scale — so every
+  // target ended up shifted and compressed toward the body instead of
+  // reaching the real screen edges.)
+  const scatterWorldTargets = useRef(new Float32Array(BREAK_COUNT * 3))
+  const lastViewport = useRef({ w: -1, h: -1 })
+
+  useFrame((state) => {
     const points = pointsRef.current
     if (!points) return
     const scroll = scrollProgress.current
@@ -372,12 +394,46 @@ function BreakCloud({ scrollProgress }: BreakCloudProps) {
     const show = breakAmt > 0.01 && dissolve < 0.998
     points.visible = show
     const mat = points.material as THREE.PointsMaterial
-    mat.opacity = (1 - dissolve) * 0.95
-    mat.size = THREE.MathUtils.lerp(0.055, 0.012, dissolve)
+    // Only fade opacity/size out in the final stretch of the dissolve window —
+    // previously this faded in lockstep with `dissolve`, so the cloud went
+    // transparent at almost exactly the rate it was spreading out, which is
+    // why it read as "a body quietly disappearing" instead of "particles
+    // filling the section". Now it stays fully visible while it travels and
+    // only fades right at the end, once it's already spread wide.
+    const fadeOut = smoothstep(0.78, 1, dissolve)
+    mat.opacity = (1 - fadeOut) * 0.95
+    mat.size = THREE.MathUtils.lerp(0.055, 0.02, fadeOut)
+
+    // The visible viewport in WORLD units at this depth, from the live camera —
+    // not a guessed constant, so this is correct at any window size/aspect.
+    const vp = state.viewport
+    if (vp.width !== lastViewport.current.w || vp.height !== lastViewport.current.h) {
+      lastViewport.current = { w: vp.width, h: vp.height }
+      // Sample a target uniformly across the ACTUAL visible screen, in WORLD
+      // space. Deliberately NOT converted to local space here — see the
+      // comment on scatterWorldTargets above.
+      const worldHalfW = vp.width * 0.5 * SCATTER_VIEWPORT_FILL
+      const worldHalfH = vp.height * 0.5 * SCATTER_VIEWPORT_FILL
+      const targets = scatterWorldTargets.current
+      for (let i = 0; i < BREAK_COUNT; i++) {
+        targets[i * 3] = (Math.random() * 2 - 1) * worldHalfW
+        targets[i * 3 + 1] = (Math.random() * 2 - 1) * worldHalfH
+        targets[i * 3 + 2] = (Math.random() * 2 - 1) * SCATTER_DEPTH
+      }
+    }
+
+    // Live group transform — read fresh every frame. During the break/
+    // dissolve range this has already converged to its resting x/scale, but
+    // reading it live (instead of once, at whatever transform happened to be
+    // active on the frame the viewport was last sampled) is what actually
+    // keeps the math correct.
+    const gscale = groupMotion.current.scale || 1
+    const gx = groupMotion.current.x
+    const gy = groupMotion.current.y
+
     const pos = points.geometry.attributes.position as THREE.BufferAttribute
-    const { origins, velocities, seeds } = cloud
-    // Hold readable body while converting; expand when Skills dissolves it
-    const spread = breakAmt * 0.28 + dissolve * 2.0
+    const { origins, seeds } = cloud
+    const worldTargets = scatterWorldTargets.current
     for (let i = 0; i < BREAK_COUNT; i++) {
       const s = seeds[i]
       // Match hole onset — sparks where armor is already rusting away
@@ -386,13 +442,23 @@ function BreakCloud({ scrollProgress }: BreakCloudProps) {
         pos.setXYZ(i, 0, -40, 0)
         continue
       }
-      const drift = spread * stagger
-      const peel = 0.08 + stagger * (0.35 + dissolve * 0.65)
+      // Newly revealed particles start at their origin on the body (still
+      // reads as the body breaking apart); as dissolve climbs they ease out
+      // to their fixed viewport-filling target — a real lerp to an exact
+      // destination, not an open-ended velocity that may under/overshoot.
+      // The target is converted from world space into this group's local
+      // space right here, using the CURRENT gx/gy/gscale, so it always lands
+      // on the intended screen position no matter how the group has moved.
+      const mixRaw = THREE.MathUtils.clamp(stagger * (0.1 + dissolve * 0.9), 0, 1)
+      const mix = mixRaw * mixRaw * (3 - 2 * mixRaw)
+      const targetLocalX = (worldTargets[i * 3] - gx) / gscale
+      const targetLocalY = (worldTargets[i * 3 + 1] - gy) / gscale
+      const targetLocalZ = worldTargets[i * 3 + 2] / gscale
       pos.setXYZ(
         i,
-        origins[i * 3] + velocities[i * 3] * drift * peel,
-        origins[i * 3 + 1] + velocities[i * 3 + 1] * drift * peel,
-        origins[i * 3 + 2] + velocities[i * 3 + 2] * drift * peel,
+        THREE.MathUtils.lerp(origins[i * 3], targetLocalX, mix),
+        THREE.MathUtils.lerp(origins[i * 3 + 1], targetLocalY, mix),
+        THREE.MathUtils.lerp(origins[i * 3 + 2], targetLocalZ, mix),
       )
     }
     pos.needsUpdate = true
@@ -579,10 +645,21 @@ function HeroModel({ scrollProgress }: HeroModelProps) {
     const onMain = 1 - toSummary
 
     // Interactive mouse head & neck tracking
-    const mouseX = _state.pointer.x
-    const mouseY = _state.pointer.y
-    const mouseYaw = mouseX * 0.72 * onMain
-    const mousePitch = -mouseY * 0.42 * onMain
+    // Clamp to ±0.70 so the very extreme edges are still limited,
+    // but give plenty of range for a full left/right face turn.
+    const rawX = THREE.MathUtils.clamp(_state.pointer.x, -0.70, 0.70)
+    const rawY = THREE.MathUtils.clamp(_state.pointer.y, -0.70, 0.70)
+
+    // Proximity fade — head reacts fully within 0.50 units of the face,
+    // fades out smoothly toward the screen edges.
+    const facePX = 0.0
+    const facePY = 0.15
+    const dist = Math.sqrt((rawX - facePX) ** 2 + (rawY - facePY) ** 2)
+    const proximity = 1 - smoothstep(0.50, 0.85, dist)
+
+    // Strong yaw so the whole face turns left/right; moderate pitch for up/down
+    const mouseYaw   =  rawX * 0.90 * proximity * onMain
+    const mousePitch = -rawY * 0.55 * proximity * onMain
 
     // Summary-only framing — main hero stays full size / original height
     const targetScale = THREE.MathUtils.lerp(1, 0.78, toSummary)
@@ -612,14 +689,14 @@ group.current.visible = dissolve < 0.998
     group.current.position.set(motion.current.x, motion.current.y, 0)
     group.current.scale.setScalar(motion.current.scale)
     modelGroup.current.scale.setScalar(layout.fitScale)
-    modelGroup.current.rotation.set(-mouseY * 0.05 * onMain, mouseX * 0.08 * onMain, 0)
+    modelGroup.current.rotation.set(-rawY * 0.05 * proximity * onMain, rawX * 0.08 * proximity * onMain, 0)
     // Mesh gone once fully particulate; particle cloud remains until Skills dissolve
     modelGroup.current.visible = breakAmt < 0.97
     if (breakAmt < 0.55) {
       const yaw = motion.current.headYaw
       const pitch = motion.current.headPitch
       for (const bone of yawBones.current) {
-         const weight = bone.name.toLowerCase().includes('neck') ? 0.45 : 0.95
+         const weight = bone.name.toLowerCase().includes('neck') ? 0.70 : 1.0
         bone.rotation.y = yaw * weight
         bone.rotation.x = pitch * weight
         bone.rotation.z = 0
@@ -666,7 +743,7 @@ group.current.visible = dissolve < 0.998
           <primitive object={model} />
         </group>
       </group>
-      <BreakCloud scrollProgress={scrollProgress} />
+      <BreakCloud scrollProgress={scrollProgress} groupMotion={motion} />
       <Suspense fallback={null}>
         <HeroSmoke scrollProgress={scrollProgress} />
       </Suspense>

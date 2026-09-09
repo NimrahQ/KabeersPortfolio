@@ -3,9 +3,12 @@ import { WorldScene } from './components/HeroScene'
 import { ArcCuts } from './components/ArcCuts'
 import { SmoothCircularBanner } from './components/BannerRibbon'
 import { SceneLoader } from './components/SceneLoader'
+import { Header } from './components/Header'
 import { ArcReactorTimeline } from './components/ArcReactorTimeline'
 import { EducationSection } from './components/EducationSection'
+import { ContactOrb } from './components/ContactOrb'
 import './App.css'
+
 
 const TICKER_ITEMS = [
   'SYED KABEER AHMED',
@@ -151,9 +154,14 @@ document.documentElement.scrollHeight - window.innerHeight
   const heroChrome = 1 - clamp01((progress - 0.38) / 0.12)
   const showMarquee = summaryVisible < 0.08
   const marqueeOpacity = showMarquee ? heroChrome : 0
-  const worldFade = 1 - clamp01((progress - 0.72) / 0.18)
+  // Was fading 0.72→0.90, which overlapped the particle dissolve window
+  // (0.68→0.92 in HeroScene) and hid the scattered particles before they'd
+  // actually spread out. Now the canvas stays fully opaque through the
+  // whole scatter and only fades right at the end of the Skills section.
+  const worldFade = 1 - clamp01((progress - 0.9) / 0.1)
   return (
     <main className="page">
+      <Header />
       <div
         className="world-stage"
         aria-hidden="true"
@@ -171,7 +179,7 @@ document.documentElement.scrollHeight - window.innerHeight
       </div>
       <SceneLoader />
 
-       <section className="scroll-story" aria-label="Syed Kabeer Ahmed">
+       <section className="scroll-story" id="home" aria-label="Syed Kabeer Ahmed">
         <div className="scroll-story__sticky">
           <div className="hero">
             <div className="hero__watermark" aria-hidden="true">
@@ -253,46 +261,17 @@ document.documentElement.scrollHeight - window.innerHeight
               <h2 className="hero__panel-title">Summary</h2>
               <p className="hero__panel-text">{SUMMARY}</p>
             </aside>
-            <p className="hero__contacts" style={{ opacity: Math.max(heroChrome, 0.35) }}>
-             <a className="hero__contacts-phone" href="tel:+923142070876">
-                <svg
-                  className="hero__contacts-phone-icon"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M7.2 3.5c.4-.4 1-.5 1.5-.3l2.2.9c.5.2.8.7.7 1.2l-.4 2.3c-.1.4.1.8.4 1.1l1.5 1.5c.3.3.7.5 1.1.4l2.3-.4c.5-.1 1 .2 1.2.7l.9 2.2c.2.5.1 1.1-.3 1.5l-1.1 1.1c-.9.9-2.2 1.2-3.4.8-2.5-.8-4.8-2.5-6.6-4.9-1.1-1.5-1.8-3.2-2-4.9-.2-1.2.3-2.3 1.2-3.1l1.1-1.1z"
-                  />
-                </svg>
-                +92-314-2070876
-              </a>
-               <span className="hero__contacts-sep" aria-hidden="true">
-                ·
-              </span>
-              <a href="mailto:syedkabeerahmed12@gmail.com">syedkabeerahmed12@gmail.com</a>
-              <span className="hero__contacts-sep" aria-hidden="true">
-                ·
-              </span>
-              <a
-                href="https://www.linkedin.com/in/syedkabeerahmed/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                linkedin.com/in/syedkabeerahmed
-              </a>
-            </p>
-             <p className="hero__credit" style={{ opacity: heroChrome }}>
-              Model: iron-man_mark_85__rigged.glb
-            </p>
+
+
           </div>
         </div>
       </section>
       <SkillsSection />
       <ArcReactorTimeline />
       <EducationSection />
+      <ContactOrb />
     </main>
+
   )
 }
 

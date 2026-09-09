@@ -1,3 +1,12 @@
+/* Offsets anchor-jump targets (nav links) so section tops don't land
+   underneath the fixed header. */
+#home,
+#skills,
+#career,
+#education {
+  scroll-margin-top: 88px;
+}
+
 .page {
   position: relative;
   min-height: 100svh;
