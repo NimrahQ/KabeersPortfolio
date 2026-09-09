@@ -154,11 +154,9 @@ document.documentElement.scrollHeight - window.innerHeight
   const heroChrome = 1 - clamp01((progress - 0.38) / 0.12)
   const showMarquee = summaryVisible < 0.08
   const marqueeOpacity = showMarquee ? heroChrome : 0
-  // Was fading 0.72→0.90, which overlapped the particle dissolve window
-  // (0.68→0.92 in HeroScene) and hid the scattered particles before they'd
-  // actually spread out. Now the canvas stays fully opaque through the
-  // whole scatter and only fades right at the end of the Skills section.
-  const worldFade = 1 - clamp01((progress - 0.9) / 0.1)
+  // Stays fully opaque through the whole break→scatter→dissolve sequence
+  // (now 0.38→0.70 in HeroScene) and only fades shortly after that finishes.
+  const worldFade = 1 - clamp01((progress - 0.74) / 0.1)
   return (
     <main className="page">
       <Header />

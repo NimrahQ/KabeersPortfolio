@@ -17,13 +17,14 @@ const TARGET_HEIGHT = 6.2
 const MODEL_BASE_Y = -2.05
 const PLUME_COUNT = 22
 const BREAK_COUNT = 5000
-/** After Summary → convert through Skills, dissolve before Spider-Man */
-const BREAK_START = 0.30
-const BREAK_END = 0.68
-const DISSOLVE_START = 0.68
-/** Longer than before — gives the scattered particles time to fill the
- *  Tools & Technologies section instead of vanishing right as they appear. */
-const DISSOLVE_END = 0.92
+/** After Summary → convert through Skills, dissolve before Spider-Man.
+ *  0.48 → 0.62 was too early (fully spread before even reaching the "Tools
+ *  and Technologies" heading); pushed a bit later so the full spread lands
+ *  closer to when that heading comes into view. */
+const BREAK_START = 0.38
+const BREAK_END = 0.56
+const DISSOLVE_START = 0.56
+const DISSOLVE_END = 0.70
 /** Fraction of the actual visible viewport (0–1) the scattered field is
  *  allowed to fill on each axis at full dissolve. 1.0 = corner-to-corner;
  *  lower it slightly if particles feel like they're leaving the section. */
