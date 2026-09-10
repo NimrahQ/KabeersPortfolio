@@ -367,6 +367,15 @@
   bottom: clamp(1.6rem, 5vh, 2.8rem);
   left: 50%;
   transform: translateX(-50%);
+  /* Without an explicit width, an absolutely-positioned box with
+     left: 50% and no `right` gets its auto width shrink-to-fit against
+     only the space from that 50% mark to the container's edge — i.e.
+     half the real width — so this wrapped onto 3 cramped lines and grew
+     tall enough to collide with the node labels above it on narrow
+     screens. Pinning the width to its natural size (capped so it can
+     never exceed the viewport) sizes it against the true full width. */
+  width: max-content;
+  max-width: min(90vw, 24rem);
   margin: 0;
   font-family: var(--font-ui);
   font-size: 0.72rem;

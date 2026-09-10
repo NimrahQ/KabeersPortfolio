@@ -18,6 +18,12 @@
 
 html {
   scroll-behavior: smooth;
+  /* Safety net: nothing on the page should ever need to scroll
+     sideways. Catches any element (present or future) that briefly
+     overflows the viewport width without changing layout for anything
+     that already fits. Set on html (not a nested wrapper) so it doesn't
+     interfere with position: sticky anywhere on the page. */
+  overflow-x: hidden;
 }
 
 html,
@@ -37,4 +43,10 @@ body {
 
 a {
   color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }

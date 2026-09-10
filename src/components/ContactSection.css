@@ -82,6 +82,7 @@
 
 .contact-section__cta {
   display: inline-block;
+  max-width: 100%;
   margin-bottom: 2.5rem;
   padding: 0.9rem 2.1rem;
   border-radius: 999px;
@@ -92,6 +93,10 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   text-decoration: none;
+  /* The email address is one unbroken string with no spaces to wrap
+     at — on a very narrow phone this lets it break internally instead
+     of overflowing the pill (and the viewport) horizontally. */
+  overflow-wrap: anywhere;
   box-shadow: 0 0 24px rgba(255, 42, 59, 0.4);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
