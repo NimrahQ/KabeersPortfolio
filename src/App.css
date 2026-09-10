@@ -182,7 +182,9 @@
   user-select: none;
   overflow: hidden;
   opacity: 0.75;
-
+  /* Nudges the whole "AVENGERS OF TECH" watermark (text + glint sweep)
+     down a bit so it clears the header instead of crowding it. */
+  transform: translateY(clamp(1.5rem, 6vh, 3.5rem));
 }
 
 .hero__watermark-svg {

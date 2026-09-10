@@ -14,7 +14,9 @@ import { clone as cloneSkeleton } from 'three/examples/jsm/utils/SkeletonUtils.j
 
 const MODEL_URL = '/models/iron-man_mark_85__web.glb'
 const TARGET_HEIGHT = 6.2
-const MODEL_BASE_Y = -2.05
+// Nudged down a bit (was -2.05) so the model's head clears the header
+// instead of sitting right up against it.
+const MODEL_BASE_Y = -2.35
 const PLUME_COUNT = 22
 const BREAK_COUNT = 5000
 /** After Summary → convert through Skills, dissolve before Spider-Man.

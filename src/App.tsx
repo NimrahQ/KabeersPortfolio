@@ -7,7 +7,7 @@ import { Header } from './components/Header'
 import { ArcReactorTimeline } from './components/ArcReactorTimeline'
 import { EducationSection } from './components/EducationSection'
 import { ContactSection } from './components/ContactSection'
-import { ContactOrb } from './components/ContactOrb'
+import { BackToTop } from './components/BackToTop'
 import { TOOLS } from './data/tools'
 import './App.css'
 
@@ -230,7 +230,7 @@ document.documentElement.scrollHeight - window.innerHeight
       <ArcReactorTimeline />
       <EducationSection />
       <ContactSection />
-      <ContactOrb />
+      <BackToTop />
     </main>
 
   )
