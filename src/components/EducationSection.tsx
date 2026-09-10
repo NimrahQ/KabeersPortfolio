@@ -24,10 +24,19 @@ const HIGHLIGHTS = [
   },
 ] as const
 
+// Public-folder asset — set via BASE_URL here (rather than a hardcoded
+// leading "/" in the CSS url()) so it still resolves once the site is
+// deployed under a subpath, e.g. GitHub Pages' /<repo>/.
+const EDUCATION_BG_URL = `${import.meta.env.BASE_URL}assets/Gemini_Generated_Image_fv75m2fv75m2fv75.jpg`
+
 export function EducationSection() {
   return (
     <section className="education" id="education" aria-label="Education">
-      <div className="education__bg" aria-hidden="true" />
+      <div
+        className="education__bg"
+        aria-hidden="true"
+        style={{ backgroundImage: `url(${EDUCATION_BG_URL})` }}
+      />
       <div className="education__vignette" aria-hidden="true" />
 
       {/* Hero title at the very top */}

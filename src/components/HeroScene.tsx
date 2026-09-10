@@ -12,7 +12,10 @@ import * as THREE from 'three'
 import { clone as cloneSkeleton } from 'three/examples/jsm/utils/SkeletonUtils.js'
 
 
-const MODEL_URL = '/models/iron-man_mark_85__web.glb'
+// Public-folder asset — must be prefixed with BASE_URL (not a hardcoded
+// leading "/") so it still resolves once the site is deployed under a
+// subpath, e.g. GitHub Pages' https://<user>.github.io/<repo>/.
+const MODEL_URL = `${import.meta.env.BASE_URL}models/iron-man_mark_85__web.glb`
 const TARGET_HEIGHT = 6.2
 // Nudged down a bit (was -2.05) so the model's head clears the header
 // instead of sitting right up against it.
