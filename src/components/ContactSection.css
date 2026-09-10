@@ -168,16 +168,6 @@
   color: rgba(242, 232, 228, 0.5);
 }
 
-.contact-section__footer-top {
-  color: rgba(255, 158, 200, 0.75);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.contact-section__footer-top:hover {
-  color: #ff9ec8;
-}
-
 @media (max-width: 640px) {
   .contact-section {
     padding-top: 3rem;

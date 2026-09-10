@@ -44,9 +44,6 @@ export function ContactSection() {
 
       <footer className="contact-section__footer">
         <span>&copy; {year} Syed Kabeer Ahmed. All rights reserved.</span>
-        <a className="contact-section__footer-top" href="#home">
-          Back to top ↑
-        </a>
       </footer>
     </section>
   )
