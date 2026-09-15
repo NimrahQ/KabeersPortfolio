@@ -123,14 +123,14 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 158, 200, 0.6)
+    rgba(255, 110, 95, 0.6)
   );
 }
 
 .arc-reactor__eyebrow-line:last-child {
   background: linear-gradient(
     90deg,
-    rgba(255, 158, 200, 0.6),
+    rgba(255, 110, 95, 0.6),
     transparent
   );
 }
@@ -141,8 +141,8 @@
   font-weight: 700;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: rgba(255, 158, 200, 0.85);
-  text-shadow: 0 0 8px rgba(255, 126, 179, 0.4);
+  color: rgba(255, 110, 95, 0.85);
+  text-shadow: 0 0 8px rgba(255, 42, 59, 0.4);
 }
 
 .arc-reactor__title {
@@ -154,10 +154,10 @@
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #ff7eb3;
+  color: #ff2a3b;
   text-shadow:
-    0 0 8px rgba(255, 60, 140, 0.85),
-    0 0 20px rgba(255, 40, 120, 0.4);
+    0 0 8px rgba(255, 42, 59, 0.85),
+    0 0 20px rgba(230, 36, 41, 0.4);
 }
 
 .arc-reactor__title-divider {
@@ -190,10 +190,10 @@
   white-space: nowrap;
 }
 .arc-reactor__subhead-dot {
-  color: #ff7eb3;
+  color: #ff2a3b;
   font-size: 0.85em;
   opacity: 0.85;
-  text-shadow: 0 0 6px rgba(255, 126, 179, 0.8);
+  text-shadow: 0 0 6px rgba(255, 42, 59, 0.8);
 }
 
 .arc-reactor__orbit-root {
@@ -330,7 +330,7 @@
 .arc-reactor__node-orbit--active .arc-reactor__node {
   opacity: 1;
   border-color: rgba(255, 158, 200, 0.7);
-  color: #ff9ec8;
+  color: #ff6b5c;
   box-shadow:
     0 0 18px rgba(255, 77, 122, 0.45),
     inset 0 1px 1px rgba(255, 255, 255, 0.35),
@@ -352,7 +352,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #ff9ec8;
+  color: #ff6b5c;
   opacity: 0;
   pointer-events: none;
   text-shadow: 0 1px 10px rgba(10, 2, 4, 0.75);
@@ -382,17 +382,17 @@
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(255, 158, 200, 0.7);
+  color: rgba(255, 110, 95, 0.7);
   text-align: center;
   z-index: 4;
 }
 
 .arc-reactor__hud strong {
-  color: #ff7eb3;
+  color: #ff2a3b;
   font-weight: 700;
   text-shadow:
-    0 0 6px rgba(255, 60, 140, 0.7),
-    0 0 14px rgba(255, 40, 120, 0.35);
+    0 0 6px rgba(255, 42, 59, 0.7),
+    0 0 14px rgba(230, 36, 41, 0.35);
 }
 .arc-reactor__footer {
   position: relative;
@@ -404,7 +404,7 @@
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(255, 158, 200, 0.55);
+  color: rgba(255, 110, 95, 0.55);
 }
 .arc-reactor__overlay {
   position: fixed;
@@ -474,7 +474,7 @@
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(255, 158, 200, 0.7);
+  color: rgba(255, 110, 95, 0.7);
 }
 .arc-reactor__detail-head {
   display: flex;
@@ -492,10 +492,10 @@
   font-size: clamp(1.15rem, 2.4vw, 1.4rem);
   font-weight: 400;
   letter-spacing: 0.04em;
-  color: #ff7eb3;
+  color: #ff2a3b;
   text-shadow:
-    0 0 6px rgba(255, 60, 140, 0.75),
-    0 0 16px rgba(255, 40, 120, 0.3);
+    0 0 6px rgba(255, 42, 59, 0.75),
+    0 0 16px rgba(230, 36, 41, 0.3);
 }
 .arc-reactor__detail-co {
   margin: 0.35rem 0 0;
@@ -504,7 +504,7 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #ff9ec8;
+  color: #ff6b5c;
 }
 .arc-reactor__detail-duration {
   margin: 0.15rem 0 0;
@@ -546,7 +546,7 @@
   left: 0;
   top: 0.7rem;
   font-size: 0.45rem;
-  color: #ff7eb3;
+  color: #ff2a3b;
   opacity: 0.85;
 }
 .arc-reactor__detail-list li b {

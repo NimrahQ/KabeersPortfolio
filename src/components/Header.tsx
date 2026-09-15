@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { href: '#contact', label: 'Contact' },
 ] as const
 
-const CONTACT_HREF = 'mailto:syedkabeerahmed12@gmail.com'
+const CV_HREF = `${import.meta.env.BASE_URL}Syed-Kabeer-Ahmed-CV.pdf`
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false)
@@ -57,8 +57,8 @@ export function Header() {
           ))}
         </nav>
 
-        <a className="site-header__cta" href={CONTACT_HREF}>
-          Let&rsquo;s Talk
+        <a className="site-header__cta" href={CV_HREF} download>
+          Download CV
         </a>
 
         <button
@@ -85,8 +85,13 @@ export function Header() {
             {link.label}
           </a>
         ))}
-        <a className="site-header__mobile-cta" href={CONTACT_HREF} onClick={closeMenu}>
-          Let&rsquo;s Talk
+        <a
+          className="site-header__mobile-cta"
+          href={CV_HREF}
+          download
+          onClick={closeMenu}
+        >
+          Download CV
         </a>
       </nav>
     </header>
