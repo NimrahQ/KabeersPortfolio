@@ -114,8 +114,8 @@
   color: #2a0810;
   padding: 0.6rem 1.3rem;
   border-radius: 999px;
-  background: linear-gradient(90deg, #ff4d7a, #ffd56a);
-  box-shadow: 0 6px 18px rgba(255, 77, 122, 0.35);
+  background: linear-gradient(90deg, #ff2a3b, #ffd56a);
+  box-shadow: 0 6px 18px rgba(255, 42, 59, 0.35);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -123,7 +123,7 @@
 
 .site-header__cta:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(255, 77, 122, 0.48);
+  box-shadow: 0 10px 24px rgba(255, 42, 59, 0.48);
 }
 
 .site-header__toggle {
@@ -234,7 +234,7 @@
     color: #2a0810;
     padding: 0.75rem 1.3rem;
     border-radius: 999px;
-    background: linear-gradient(90deg, #ff4d7a, #ffd56a);
+    background: linear-gradient(90deg, #ff2a3b, #ffd56a);
   }
 }
 
