@@ -32,7 +32,7 @@ const SKILLS_MARQUEE = [
 
 
 const SUMMARY =
-  'Experienced MEAN and MERN Stack Developer with over 5+ years of experience spearheading complex web applications and ERP systems. Implemented cutting-edge solutions in Multiple product, and UI/UX optimization, while engineering robust integrations with third-party APIs. Developed data-driven strategies to enhance system performance and security, showcasing strong problem-solving skills across diverse projects in fintech, recruitment, and e-commerce sectors.'
+  'I’m a Full-Stack Developer focused on building modern, high-performance web experiences with React, Next.js, and JavaScript. I enjoy turning ideas into intuitive, responsive interfaces and scalable applications that balance clean design with solid functionality. From interactive dashboards and data-driven platforms to creative web experiences, I focus on writing maintainable code, improving performance, and creating digital products that feel fast, seamless, and engaging.'
 
 
 
