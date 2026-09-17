@@ -90,7 +90,10 @@
 .arc-reactor__header {
   position: absolute;
   z-index: 5;
-  top: clamp(0.6rem, 1.8vh, 1.2rem);
+  /* 88px clears the fixed site header (matches the scroll-margin-top used
+     for anchor jumps elsewhere) — without it this title renders almost
+     entirely behind the nav bar. */
+  top: calc(88px + clamp(0.6rem, 1.8vh, 1.2rem));
   left: 50%;
   transform: translateX(-50%);
   width: min(38rem, calc(100% - 2.5rem));
@@ -149,7 +152,7 @@
   margin: 0;
   padding: 0;
   border-bottom: none;
-  font-family: var(--font-story);
+  font-family: var(--font-orbitron);
   font-size: clamp(1.4rem, 2.6vw, 2rem);
   font-weight: 400;
   letter-spacing: 0.1em;
@@ -488,7 +491,7 @@
 }
 .arc-reactor__detail-role {
   margin: 0;
-  font-family: var(--font-story);
+  font-family: var(--font-orbitron);
   font-size: clamp(1.15rem, 2.4vw, 1.4rem);
   font-weight: 400;
   letter-spacing: 0.04em;
@@ -582,7 +585,7 @@
     --arc-radius: clamp(115px, 28vmin, 175px);
   }
   .arc-reactor__header {
-    top: 0.75rem;
+    top: calc(88px + 0.75rem);
     padding: 0.5rem 0.75rem 0.65rem;
     width: min(94vw, 24rem);
   }

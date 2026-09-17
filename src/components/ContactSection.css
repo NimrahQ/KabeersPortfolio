@@ -59,7 +59,7 @@
 
 .contact-section__title {
   margin: 0 0 1rem;
-  font-family: var(--font-story);
+  font-family: var(--font-orbitron);
   font-size: clamp(2rem, 5vw, 3.2rem);
   font-weight: 400;
   letter-spacing: 0.04em;
