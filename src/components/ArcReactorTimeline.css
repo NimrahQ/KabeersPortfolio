@@ -80,11 +80,16 @@
   justify-content: center;
   overflow: hidden;
   will-change: transform;
+  /* Smooths out the frame-to-frame jumps between scroll events driving the
+     entrance transform — without this the slide-in tracked scroll 1:1 and
+     could feel like it was snapping into place rather than gliding in. */
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .arc-reactor__stage {
     transform: none !important;
+    transition: none;
   }
 }
 .arc-reactor__header {

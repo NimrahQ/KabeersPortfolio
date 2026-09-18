@@ -14,10 +14,16 @@ export function ArcReactorTimeline() {
   const [activeCount, setActiveCount] = useState(0)
   const [glowStrength, setGlowStrength] = useState(0.35)
   const [selectedJob, setSelectedJob] = useState<number | null>(null)
-  // How far into this section's own scroll we are, 0 -> 1 across just the
-  // first sliver of the 600vh driver. Drives a quick entrance slide so the
-  // real Career stage pans in from the right as it takes over from the
-  // Tools clone sliding out (see SectionTransition), instead of a hard cut.
+  // Drives a quick entrance slide so the real Career stage pans in from the
+  // right as it takes over from the Tools clone sliding out (see
+  // SectionTransition), instead of a hard cut. Tied to how close the
+  // driver's own top is to the viewport top (not to `progress` below, which
+  // only starts once the section is fully reached) so the slide starts
+  // ENTRANCE_LEAD px before arrival and finishes ENTRANCE_SPAN px later —
+  // the stage is already in place by the time you actually reach the
+  // section, instead of popping in afterwards. The CSS transition on
+  // .arc-reactor__stage's transform (see ArcReactorTimeline.css) smooths
+  // out the frame-to-frame jumps between scroll events on top of this.
   const [entrance, setEntrance] = useState(0)
   const onScroll = useCallback(() => {
     const driver = driverRef.current
@@ -33,7 +39,18 @@ export function ArcReactorTimeline() {
       Math.floor(progress * 5 + 0.001) + (progress > 0 ? 1 : 0),
     )
     setActiveCount(shouldActive)
-    const entranceRaw = Math.min(Math.max(progress / 0.06, 0), 1)
+    // Scaled to viewport height so this holds up across screen sizes: the
+    // slide starts as soon as the section's top is about one screen-height
+    // below the viewport (i.e. right as it starts entering from the
+    // bottom) and finishes well before it actually reaches the header, so
+    // it's already settled by the time you arrive instead of popping in.
+    const viewportH = window.innerHeight
+    const ENTRANCE_LEAD = viewportH * 0.9
+    const ENTRANCE_SPAN = viewportH * 0.6
+    const entranceRaw = Math.min(
+      Math.max((ENTRANCE_LEAD - rect.top) / ENTRANCE_SPAN, 0),
+      1,
+    )
     setEntrance(entranceRaw * entranceRaw * (3 - 2 * entranceRaw))
   }, [])
 
