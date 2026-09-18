@@ -12,6 +12,17 @@ export type OrbitNode = {
   rotation: number
   counterRot: number
   label: string
+  /** Company logo shown in the node circle and detail popup instead of the
+   *  plain index number, when available. */
+  logo?: string
+  /** Set when the logo file is already light-colored (white/light text) and
+   *  meant to sit on a dark surface — skips the white badge backing and the
+   *  invert filter used for pale/gray logos like Shispare's. */
+  logoOnDark?: boolean
+  /** Set when the logo has real brand colors plus dark text (e.g. black
+   *  wordmark) that need an actual light backing to read at all — shown at
+   *  full color on a light badge instead of inverted to white on dark. */
+  logoOnLight?: boolean
 }
 
 /** Career history — newest first, matching orbit node order 01→05. */
@@ -82,9 +93,37 @@ export const CAREER_JOBS: CareerJob[] = [
 
 /** Fixed positions for the five orbit nodes (degrees on the reactor ring). */
 export const ORBIT_NODES: OrbitNode[] = [
-  { rotation: -90, counterRot: 90, label: 'Shispare' },
-  { rotation: -18, counterRot: 18, label: 'Appxone' },
-  { rotation: 54, counterRot: -54, label: 'Skyscrapers' },
-  { rotation: 126, counterRot: -126, label: 'Empower' },
-  { rotation: 198, counterRot: -198, label: 'Stratesfy' },
+  {
+    rotation: -90,
+    counterRot: 90,
+    label: 'Shispare',
+    logo: `${import.meta.env.BASE_URL}assets/logo-shispare.webp`,
+  },
+  {
+    rotation: -18,
+    counterRot: 18,
+    label: 'Appxone',
+    logo: `${import.meta.env.BASE_URL}assets/appxone-logo.png`,
+  },
+  {
+    rotation: 54,
+    counterRot: -54,
+    label: 'Skyscrapers',
+    logo: `${import.meta.env.BASE_URL}assets/skyscrapers-logo.svg`,
+    logoOnDark: true,
+  },
+  {
+    rotation: 126,
+    counterRot: -126,
+    label: 'Empower',
+    logo: `${import.meta.env.BASE_URL}assets/empower-logo.png`,
+    logoOnLight: true,
+  },
+  {
+    rotation: 198,
+    counterRot: -198,
+    label: 'Stratesfy',
+    logo: `${import.meta.env.BASE_URL}assets/stratesfy-logo.png`,
+    logoOnDark: true,
+  },
 ]

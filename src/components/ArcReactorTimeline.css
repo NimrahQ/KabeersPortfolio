@@ -348,6 +348,54 @@
   transform: scale(1.1);
 }
 
+/* Was a solid white badge before — at full brightness plus the active
+   glow it blew out pale logos like Shispare's entirely (a light-gray
+   wordmark on a lit-up white disc has almost no contrast left). Now every
+   logo node keeps the same dark glass look as the plain numbered nodes;
+   contrast comes from brightening the logo itself (see
+   .arc-reactor__node-logo--invert) rather than lighting up the backing. */
+.arc-reactor__node--logo {
+  padding: 13px;
+}
+
+.arc-reactor__node-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Pale/gray logos (e.g. Shispare) need brightening to read against the
+   dark node — forces them to solid white the same way the detail popup
+   does. Skipped for logos already colored for a dark background
+   (logoOnDark), which show their real colors untouched. */
+.arc-reactor__node-logo--invert {
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
+}
+
+.arc-reactor__node-orbit--active .arc-reactor__node-logo--invert {
+  opacity: 1;
+}
+
+/* For logos with real brand colors PLUS dark text (e.g. Empower's black
+   wordmark) — inverting would wreck the colors, and the dark node would
+   swallow the dark text, so this gets an actual light backing instead,
+   at a modest (not glowing) brightness so it doesn't repeat the old
+   blown-out-white problem. */
+.arc-reactor__node--logo-light {
+  padding: 11px;
+  background: rgba(238, 232, 230, 0.88);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.arc-reactor__node-orbit--active .arc-reactor__node--logo-light {
+  background: rgba(245, 240, 238, 0.95);
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 0 10px rgba(255, 255, 255, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
 
 .arc-reactor__node-label {
   position: absolute;
@@ -483,6 +531,38 @@
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: rgba(255, 110, 95, 0.7);
+}
+
+.arc-reactor__detail-logo {
+  display: block;
+  height: 22px;
+  width: auto;
+  margin: 0 0 0.6rem;
+  /* Logo is a pale wordmark meant for light backgrounds — brighten it so
+     it reads clearly against the panel's dark gradient. */
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
+}
+
+/* Logo is already light-colored (and may be multi-color, e.g. a wordmark
+   with an accent color) — showing it as-is instead of forcing it to solid
+   white via the invert filter above. */
+.arc-reactor__detail-logo--on-dark {
+  height: 26px;
+  filter: none;
+  opacity: 1;
+}
+
+/* Logo has real brand colors plus dark text — needs an actual light
+   backing to read against the panel's dark gradient, unlike the pale
+   logos above which just get inverted to white. */
+.arc-reactor__detail-logo--on-light {
+  height: 42px;
+  padding: 0.4rem 0.7rem;
+  border-radius: 8px;
+  background: rgba(242, 238, 236, 0.95);
+  filter: none;
+  opacity: 1;
 }
 .arc-reactor__detail-head {
   display: flex;

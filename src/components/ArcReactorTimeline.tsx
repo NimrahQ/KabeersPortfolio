@@ -72,6 +72,8 @@ export function ArcReactorTimeline() {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [selectedJob])
   const selected = selectedJob !== null ? CAREER_JOBS[selectedJob] : null
+  const selectedNode = selectedJob !== null ? ORBIT_NODES[selectedJob] : null
+  const selectedLogo = selectedNode?.logo ?? null
 
  return (
     <section
@@ -175,14 +177,29 @@ export function ArcReactorTimeline() {
                 <div className="arc-reactor__node-wrap">
                   <button
                     type="button"
-                    className="arc-reactor__node"
+                    className={`arc-reactor__node${
+                      node.logo
+                        ? node.logoOnLight
+                          ? ' arc-reactor__node--logo arc-reactor__node--logo-light'
+                          : ' arc-reactor__node--logo'
+                        : ''
+                    }`}
                     aria-label={`${CAREER_JOBS[index].role} at ${node.label}`}
                     onClick={() => setSelectedJob(index)}
-
-
                   >
-                                        {String(index + 1).padStart(2, '0')}
-
+                    {node.logo ? (
+                      <img
+                        className={`arc-reactor__node-logo${
+                          !node.logoOnDark && !node.logoOnLight
+                            ? ' arc-reactor__node-logo--invert'
+                            : ''
+                        }`}
+                        src={node.logo}
+                        alt={node.label}
+                      />
+                    ) : (
+                      String(index + 1).padStart(2, '0')
+                    )}
                   </button>
                   <span className="arc-reactor__node-label">{node.label}</span>
                 </div>
@@ -224,6 +241,19 @@ export function ArcReactorTimeline() {
             <p className="arc-reactor__detail-kicker">Role</p>
             <div className="arc-reactor__detail-head">
               <div>
+                {selectedLogo ? (
+                  <img
+                    className={`arc-reactor__detail-logo${
+                      selectedNode?.logoOnDark
+                        ? ' arc-reactor__detail-logo--on-dark'
+                        : selectedNode?.logoOnLight
+                          ? ' arc-reactor__detail-logo--on-light'
+                          : ''
+                    }`}
+                    src={selectedLogo}
+                    alt={selected.co}
+                  />
+                ) : null}
                 <h3 className="arc-reactor__detail-role" id="arc-detail-role">
                   {selected.role}
                 </h3>
